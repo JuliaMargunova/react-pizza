@@ -6,44 +6,17 @@ import PizzaBlock from './components/PizzaBlock';
 
 const categoriesList = ["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
 
-const pizzas = [
-  {
-    id: 0,
-    imageUrl: "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
-    name: "Чизбургер-пицца",
-    types: [0, 1],
-    sizes: [26, 40],
-    prize: 250,
-    category: 0,
-    rating: 4
-  },
-  {
-    id: 1,
-    imageUrl: "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
-    name: "Сырная",
-    types: [0, 1],
-    sizes: [26, 30, 40],
-    prize: 25,
-    category: 0,
-    rating: 4
-  },
-  {
-    id: 2,
-    imageUrl: "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg",
-    name: "Мексиканская",
-    types: [0],
-    sizes: [30, 40],
-    prize: 500,
-    category: 0,
-    rating: 4
-  }
-];
-
-const pizzasList = pizzas.map(pizza=>{
-  return <PizzaBlock title={pizza.name} imageUrl={pizza.imageUrl} sizes={pizza.sizes} types={pizza.types}  />
-})
-
 function App() {
+  const [items, setItems] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch("https://63b403f1ea89e3e3db53cf0c.mockapi.io/items").then(res => res.json()).then(res => setItems(res))
+  }, []);
+
+  const pizzasList = items.map(pizza => {
+    return <PizzaBlock title={pizza.name} imageUrl={pizza.imageUrl} sizes={pizza.sizes} types={pizza.types} />
+  })
+
   return (<div className="wrapper">
     <Header />
     <div className="content">
@@ -54,7 +27,7 @@ function App() {
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">
-         {pizzasList}
+          {pizzasList}
         </div>
       </div>
     </div>
