@@ -22,19 +22,22 @@ const Home = () => {
                     setIsLoading(false);
                 }
             )
+        window.scrollTo(0, 0);
     }, []);
     return (<>
-        <div className="content__top">
-            <Categories categoriesList={categoriesList} />
-            <Sort />
-        </div>
-        <h2 className="content__title">Все пиццы</h2>
-        <div className="content__items">
-            {
-                (isLoading) ? [...new Array(4)].map((_, index) => { return <Skeleton key={index} /> }) : items.map(pizza => {
-                    return <PizzaBlock key={pizza.id} {...pizza} />
-                }
-                )}
+        <div className="container">
+            <div className="content__top">
+                <Categories categoriesList={categoriesList} />
+                <Sort />
+            </div>
+            <h2 className="content__title">Все пиццы</h2>
+            <div className="content__items">
+                {
+                    (isLoading) ? [...new Array(4)].map((_, index) => { return <Skeleton key={index} /> }) : items.map(pizza => {
+                        return <PizzaBlock key={pizza.id} {...pizza} />
+                    }
+                    )}
+            </div>
         </div>
     </>)
 
