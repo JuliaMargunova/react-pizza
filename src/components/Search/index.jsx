@@ -14,4 +14,4 @@ const Search = ({ searchValue, setSearchValue }) => {
     )
 }
 
-export default Search;
+export default Search; 
