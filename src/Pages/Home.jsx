@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from "../Pagination";
+import {SearchContext} from '../App';
 
 
-const Home = ({ searchValue }) => {
+const Home = () => {
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const [sortType, setSortType] = useState({ name: 'популярности', sort: 'rating' });
     const [idCategory, setCategory] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+
+    const {searchValue} = useContext(SearchContext);
 
     const category = idCategory > 0 ? `category=${idCategory}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
