@@ -5,21 +5,25 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from "../Pagination";
-import {SearchContext} from '../App';
+import { SearchContext } from '../App';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../redux/slises/filterSlice';
 
 
 const Home = () => {
+    const idCategory = useSelector(state => state.filter.categoryId);
+    const dispatch = useDispatch();
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const [sortType, setSortType] = useState({ name: 'популярности', sort: 'rating' });
-    const [idCategory, setCategory] = useState(0);
+    // const [idCategory, setCategory] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const {searchValue} = useContext(SearchContext);
+    const { searchValue } = useContext(SearchContext);
 
-    const category = idCategory > 0 ? `category=${idCategory}` : '';
+    const category = idCategory > 0 ? `&category=${idCategory}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
-    const page=currentPage > 0 ? `page=${currentPage}` : '';
 
     React.useEffect(() => {
         setIsLoading(true);
@@ -43,10 +47,17 @@ const Home = () => {
         //setItemOffset(newOffset);
     };
 
+    const onChangeCategory = (i) => {
+        dispatch(setCategoryId(i));
+        console.log(i);
+       
+    }
+    console.log('idCategory =' + idCategory);
+
     return (<>
         <div className="container">
             <div className="content__top">
-                <Categories activeIndex={idCategory} setActiveIndexClick={(i) => setCategory(i)} />
+                <Categories activeIndex={idCategory} setActiveIndexClick={onChangeCategory} />
                 <Sort sortType={sortType} onClickSortType={(type) => setSortType(type)} />
             </div>
             <h2 className="content__title">Все пиццы</h2>
@@ -57,7 +68,7 @@ const Home = () => {
                     }
                     )}
             </div>
-            <Pagination onChange={(e)=>setCurrentPage(e)} />
+            <Pagination onChange={(e) => setCurrentPage(e)} />
         </div>
     </>)
 

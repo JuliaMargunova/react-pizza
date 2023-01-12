@@ -4,6 +4,7 @@ import Home from './Pages/Home';
 import NotFound from './Pages/NotFound';
 import Cart from './Pages/Cart';
 
+
 import { Route, Routes } from "react-router-dom";
 
 export const SearchContext = React.createContext();
@@ -14,7 +15,7 @@ function App() {
 
   return (
     <div className="wrapper">
-      <SearchContext.Provider value={{searchValue, setSearchValue}}>
+      <SearchContext.Provider value={{ searchValue, setSearchValue }}>
         <Header />
         <div className="content">
           <Routes>
