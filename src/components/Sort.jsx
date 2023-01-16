@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {setSort} from '../redux/slises/filterSlice';
+import { setSort } from '../redux/slises/filterSlice';
 
-function Sort() {
+
+export const list = [
+    { name: 'популярности', sort: 'rating' },
+    { name: 'цене', sort: 'price' },
+    { name: 'алфавиту', sort: 'name' }
+];
+
+const Sort = () => {
     const sortType = useSelector(state => state.filter.sortType);
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
-    const list = [
-        { name: 'популярности', sort: 'rating' },
-        { name: 'цене', sort: 'price' },
-        { name: 'алфавиту', sort: 'name' }
-    ]
+    
     const setSortTypeClick = (type) => {
-       // onClickSortType(type);
-       dispatch(setSort(type));
+        dispatch(setSort(type));
         setIsOpen(!isOpen);
     }
 
