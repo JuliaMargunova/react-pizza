@@ -7,11 +7,19 @@ import { SearchContext } from "../../App";
 
 const Search = () => {
     const { searchValue, setSearchValue } = React.useContext(SearchContext);
+    const inputRef = React.useRef();
+
+    const onClickClear = () => {
+        setSearchValue('');
+        console.log(inputRef);
+        inputRef.current.focus();
+    }
+
     return (
         <div className={s.root}>
             <img className={s.search} src={search} />
-            <input onChange={(e) => { setSearchValue(e.target.value) }} className={s.input} placeholder="Поиск пиццы..." value={searchValue} />
-            {searchValue && <img onClick={() => setSearchValue('')} className={s.clear} src={clear} />}
+            <input ref={inputRef} onChange={(e) => { setSearchValue(e.target.value) }} className={s.input} placeholder="Поиск пиццы..." value={searchValue} />
+            {searchValue && <img onClick={()=>onClickClear() } className={s.clear} src={clear} />}
         </div>
     )
 }
