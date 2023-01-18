@@ -19,43 +19,67 @@ const Home = () => {
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const { searchValue } = useContext(SearchContext);
-    const category = categoryId > 0 ? `&category=${categoryId}` : '';
-    const search = searchValue ? `&search=${searchValue}` : '';
+    const isSearch = React.useRef(false);
+    const isMounted = React.useRef(false);
 
-    React.useEffect(() => {
-        if (window.location.search) {
-            const params = qs.parse(window.location.search.substring(1));
-            const sortType = list.find((item) => params.sortType === item.sort);
-            dispatch(setFilters({
-                ...params,
-                sortType
-            }));
-        }
+
+    const onChangeCategory = React.useCallback((i) => {
+        dispatch(setCategoryId(i));
     }, []);
 
-    React.useEffect(() => {
+    
+    const fetchPizzas = () => {
+        const category = categoryId > 0 ? `&category=${categoryId}` : '';
+        const search = searchValue ? `&search=${searchValue}` : '';
+
+
         setIsLoading(true);
         axios.get(`https://63b403f1ea89e3e3db53cf0c.mockapi.io/items?limit=4&page=${currentPage}${category}&sortBy=${sortType.sort}&order=asc${search}`
         ).then(res => {
             setItems(res.data);
             setIsLoading(false);
-        })
-        window.scrollTo(0, 0);
-    }, [categoryId, sortType.sort, searchValue, currentPage]);
-
-    
+        });
+    }
 
     React.useEffect(() => {
-        const queryString = qs.stringify({
-            sortType: sortType.sort,
-            categoryId,
-            currentPage
-        });
-        navigate(`?${queryString}`);
-    }, [categoryId, currentPage, sortType.sort]);
-    const onChangeCategory = (i) => {
-        dispatch(setCategoryId(i));
-    }
+        if (isMounted.current) {
+            const queryString = qs.stringify({
+                sort: sortType.sort,
+                categoryId,
+                currentPage
+            });
+            navigate(`?${queryString}`);
+        }
+        isMounted.current = true;
+
+    }, [categoryId, sortType.sort, currentPage]);
+
+
+
+
+    React.useEffect(() => {
+        if (window.location.search) {
+            const params = qs.parse(window.location.search.substring(1));
+            const sortType = list.find((item) => params.sort === item.sort);
+
+            dispatch(setFilters({
+                ...params,
+                sortType
+            }),
+            );
+            isSearch.current = true;
+        }
+
+    }, []);
+
+    React.useEffect(() => {
+        window.scrollTo(0, 0);
+        if (!isSearch.current) {
+            fetchPizzas();
+        }
+
+        isSearch.current = false;
+    }, [categoryId, sortType.sort, searchValue, currentPage]);
 
     return (<>
         <div className="container">
