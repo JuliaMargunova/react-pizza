@@ -3,13 +3,13 @@ import axios from "axios";
 
 const initialState = {
     items: [],
+    status: 'loading'
 };
 
-export const fetchPizzas = createAsyncThunk('pizza/fetchPizza', async (params) => {
-    const {category, search, currentPage, sortType} = params;
-    debugger
-    const { data } = await axios.get(`https://63b403f1ea89e3e3db53cf0c.mockapi.io/items?limit=4&page=${currentPage}${category}&sortBy=${sortType.sort}&order=asc${search}`
-    ); 
+export const fetchPizzas = createAsyncThunk('pizza/fetchPizzaStatus', async (params) => {
+    const { category, search, currentPage, sort } = params;
+    const { data } = await axios.get(`https://63b403f1ea89e3e3db53cf0c.mockapi.io/items?limit=4&page=${currentPage}${category}&sortBy=${sort}&order=asc${search}`
+    );
     return data;
     //.then(res => {
     //     //setItems(res.data);
@@ -24,17 +24,20 @@ const pizzaSlice = createSlice({
     reducers: {
         setItems(state, action) {
             state.items = action.payload;
+            state.items = [];
         },
     },
-    extraReducers:{
-        [fetchPizzas.pending]:(state,action)=>{
-            console.log('идет загрузка');
+    extraReducers: {
+        [fetchPizzas.pending]: (state) => {
+            state.status = 'loading'
         },
-        [fetchPizzas.fulfilled]:(state,action)=>{
-            console.log('ошибка');
+        [fetchPizzas.fulfilled]: (state, action) => {
+            state.items = action.payload;
+            state.status = 'success';
         },
-        [fetchPizzas.rejected]:(state,action)=>{
-            console.log(state,'все ок');
+        [fetchPizzas.rejected]: (state, action) => {
+            state.status = 'error';
+            state.items = [];
         }
     },
 });
