@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import qs from 'qs';
-import axios from "axios";
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
@@ -11,12 +10,15 @@ import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slises/filterSlice';
 import { list } from '../components/Sort';
+import { fetchPizzas } from '../redux/slises/pizzaSlice';
 
 const Home = () => {
     const navigate = useNavigate();
     const { categoryId, sortType, currentPage } = useSelector(state => state.filter);
+    const { items } = useSelector(state => state.pizza);
     const dispatch = useDispatch();
-    const [items, setItems] = React.useState([]);
+    //const disp = useDispatch();
+    //const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const { searchValue } = useContext(SearchContext);
     const isSearch = React.useRef(false);
@@ -27,19 +29,11 @@ const Home = () => {
         dispatch(setCategoryId(i));
     }, []);
 
-    
-    const fetchPizzas = () => {
-        const category = categoryId > 0 ? `&category=${categoryId}` : '';
-        const search = searchValue ? `&search=${searchValue}` : '';
+    const category = categoryId > 0 ? `&category=${categoryId}` : '';
+    const search = searchValue ? `&search=${searchValue}` : '';
 
 
-        setIsLoading(true);
-        axios.get(`https://63b403f1ea89e3e3db53cf0c.mockapi.io/items?limit=4&page=${currentPage}${category}&sortBy=${sortType.sort}&order=asc${search}`
-        ).then(res => {
-            setItems(res.data);
-            setIsLoading(false);
-        });
-    }
+
 
     React.useEffect(() => {
         if (isMounted.current) {
@@ -75,7 +69,13 @@ const Home = () => {
     React.useEffect(() => {
         window.scrollTo(0, 0);
         if (!isSearch.current) {
-            fetchPizzas();
+            try {
+                dispatch(fetchPizzas(categoryId, searchValue, currentPage, sortType.sort));
+                debugger;
+            }
+            catch (error) {
+                console.log('ERROR', error);
+            }
         }
 
         isSearch.current = false;
