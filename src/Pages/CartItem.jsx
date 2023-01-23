@@ -1,8 +1,6 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
-
-const CartItem = ({ id, name, price, type, size, imageUrl, count }) => {
+const CartItem = ({  name, price, type, size, imageUrl, count }) => {
     return (
         <div className="cart__item">
             <div className="cart__item-img">

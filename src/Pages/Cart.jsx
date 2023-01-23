@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import CartItem from './CartItem';
 
 import { useSelector } from "react-redux";
+import {selectCart} from '../redux/slises/cartSlice';
+
 const Cart = () => {
-    const { totalPrice, items, cartPizzasQuantity } = useSelector(state => state.cart);
+    const { totalPrice, items, cartPizzasQuantity } = useSelector(selectCart);
 
     return (
         <div className="container container--cart">

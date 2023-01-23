@@ -12,16 +12,19 @@ import { setCategoryId, setCurrentPage, setFilters } from '../redux/slises/filte
 import { list } from '../components/Sort';
 import { fetchPizzas } from '../redux/slises/pizzaSlice';
 import NotFoundBlock from './NotFound';
+import { Link } from "react-router-dom";
+
 
 const Home = () => {
     const navigate = useNavigate();
-    const { categoryId, sortType, currentPage } = useSelector(state => state.filter);
+    const { categoryId, sortType, currentPage, searchValue } = useSelector(state => state.filter);
     const { items, status } = useSelector(state => state.pizza);
     const dispatch = useDispatch();
     //const disp = useDispatch();
     //const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
-    const { searchValue } = useContext(SearchContext);
+    //const { searchValue } = useContext(SearchContext);
+
     const isSearch = React.useRef(false);
     const isMounted = React.useRef(false);
 
@@ -73,7 +76,6 @@ const Home = () => {
             );
             isSearch.current = true;
         }
-
     }, []);
 
     React.useEffect(() => {
@@ -92,15 +94,15 @@ const Home = () => {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             {
-            (status === "error") ? <NotFoundBlock/> :( <div className="content__items">
-            {
-                (isLoading) ? [...new Array(4)].map((_, index) => { return <Skeleton key={index} /> }) : items.map(pizza => {
-                    return <PizzaBlock key={pizza.id} {...pizza} />
-                }
-                )}
-        </div>)
+                (status === "error") ? <NotFoundBlock /> : (<div className="content__items">
+                    {
+                        (isLoading) ? [...new Array(4)].map((_, index) => { return <Skeleton key={index} /> }) : items.map(pizza => {
+                            return <Link key={pizza.id} to={"/pizza/" + pizza.id}><PizzaBlock {...pizza} /></Link>
+                        }
+                        )}
+                </div>)
             }
-           
+
             <Pagination currentPage={currentPage} onChange={(e) => dispatch(setCurrentPage(e))} />
         </div>
     </>)
