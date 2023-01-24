@@ -3,10 +3,12 @@ import logo from '../assets/img/pizza-logo.svg';
 import { Link, useLocation } from "react-router-dom";
 import Search from "./Search";
 import { useSelector, useDispatch } from "react-redux";
+import{selectCart} from '../redux/slises/cartSlice';
 
 function Header() {
-  const { totalPrice, cartPizzasQuantity } = useSelector(state => state.cart);
+  const { totalPrice, cartPizzasQuantity } = useSelector(selectCart);
   const { pathname } = useLocation();
+  
   return (<div className="header">
     <div className="container">
       <Link to="/"> <div className="header__logo">

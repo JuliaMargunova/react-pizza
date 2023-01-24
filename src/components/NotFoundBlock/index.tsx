@@ -1,7 +1,7 @@
 import React from "react";
-import s from '../NotFoundBlock/NotFoundBlock.module.css';
+import s from '../NotFoundBlock/NotFoundBlock.module.scss';
 
-const NotFoundBlock = () => {
+const NotFoundBlock :React.FC = () => {
     return (
         <>
             <div className={s.root}>

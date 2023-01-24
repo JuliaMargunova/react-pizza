@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import CartItem from './CartItem';
 
 import { useSelector } from "react-redux";
-import {selectCart} from '../redux/slises/cartSlice';
+import { selectCart } from '../redux/slises/cartSlice';
 
-const Cart = () => {
+const Cart: React.FC = () => {
     const { totalPrice, items, cartPizzasQuantity } = useSelector(selectCart);
 
     return (
@@ -30,8 +30,8 @@ const Cart = () => {
                     </div>
                 </div>
                 <div className="content__items">
-                   { items.map((item)=><CartItem key={item.id} {...item}/>) }
-                 
+                    {items.map((item: any) => <CartItem key={item.id} {...item} />)}
+
                 </div>
                 <div className="cart__bottom">
                     <div className="cart__bottom-details">

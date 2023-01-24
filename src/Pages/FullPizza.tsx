@@ -3,9 +3,13 @@ import React from "react";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const FullPizza = () => {
+const FullPizza : React.FC = () => {
     const { id } = useParams();
-    const [pizza, setPizzas] = useState();
+    const [pizza, setPizzas] = useState<{
+        name: string,
+        imageUrl:string,
+        price: number
+    }>();
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -21,9 +25,11 @@ const FullPizza = () => {
         }
         fetchPizza();
     }, []);
+
     if (!pizza) {
         return (<div>Загрузка....</div>)
     }
+    
     return (<div className="container">
         <h1>{pizza.name}</h1>
         <img src={pizza.imageUrl} />

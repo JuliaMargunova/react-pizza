@@ -6,30 +6,27 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from "../Pagination";
 import { useNavigate } from "react-router-dom";
-import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slises/filterSlice';
 import { list } from '../components/Sort';
 import { fetchPizzas } from '../redux/slises/pizzaSlice';
 import NotFoundBlock from './NotFound';
-
+import {selectPizza} from '../redux/slises/pizzaSlice';
+import {selectFilter} from '../redux/slises/filterSlice';
 
 
 const Home = () => {
     const navigate = useNavigate();
-    const { categoryId, sortType, currentPage, searchValue } = useSelector(state => state.filter);
-    const { items, status } = useSelector(state => state.pizza);
+    const { categoryId, sortType, currentPage, searchValue } = useSelector(selectFilter);
+    const { items, status } = useSelector(selectPizza);
     const dispatch = useDispatch();
-    //const disp = useDispatch();
-    //const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
-    //const { searchValue } = useContext(SearchContext);
 
     const isSearch = React.useRef(false);
     const isMounted = React.useRef(false);
 
 
-    const onChangeCategory = React.useCallback((i) => {
+    const onChangeCategory = React.useCallback((i:number) => {
         dispatch(setCategoryId(i));
     }, []);
 
@@ -55,7 +52,15 @@ const Home = () => {
         const search = searchValue ? `&search=${searchValue}` : '';
         const sort = sortType.sort;
         try {
-            dispatch(fetchPizzas({ category, search, currentPage, sort }));
+            dispatch(
+                //@ts-ignore
+                fetchPizzas({
+                     category,
+                      search, 
+                      currentPage,
+                       sort 
+                    }),
+                    );
         }
         catch (error) {
             console.log('ERROR', error);
@@ -96,14 +101,14 @@ const Home = () => {
             {
                 (status === "error") ? <NotFoundBlock /> : (<div className="content__items">
                     {
-                        (isLoading) ? [...new Array(4)].map((_, index) => { return <Skeleton key={index} /> }) : items.map(pizza => {
+                        (isLoading) ? [...new Array(4)].map((_, index) => { return <Skeleton key={index} /> }) : items.map((pizza:any) => {
                             return < PizzaBlock key={pizza.id} {...pizza} />
                         }
                         )}
                 </div>)
             }
 
-            <Pagination currentPage={currentPage} onChange={(e) => dispatch(setCurrentPage(e))} />
+            <Pagination currentPage={currentPage} onChange={(e:any) => dispatch(setCurrentPage(e))} />
         </div>
     </>)
 

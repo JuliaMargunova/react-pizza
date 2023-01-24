@@ -9,7 +9,6 @@ import FullPizza from './Pages/FullPizza';
 import { Route, Routes } from "react-router-dom";
 import MainLayoot from './Pages/layouts/MainLayout';
 
-export const SearchContext = React.createContext();
 
 function App() {
   return (

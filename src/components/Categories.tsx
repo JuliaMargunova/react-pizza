@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-function Categories({ activeIndex, setActiveIndexClick }) {
+type CategoriesProps = {
+    activeIndex:number;
+setActiveIndexClick: any;
+}
+
+const Categories: React.FC<CategoriesProps> = ({ activeIndex, setActiveIndexClick }) => {
     const categoriesList = ["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
 
     const categories = categoriesList.map((c, i) => {

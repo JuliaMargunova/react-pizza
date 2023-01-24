@@ -1,6 +1,16 @@
 import React from "react";
 
-const CartItem = ({  name, price, type, size, imageUrl, count }) => {
+type CatsProps = {
+    name: string;
+    price: number;
+    type: string;
+    size: number;
+    imageUrl: string;
+    count: number;
+
+}
+
+const CartItem: React.FC<CatsProps> = ({ name, price, type, size, imageUrl, count }) => {
     return (
         <div className="cart__item">
             <div className="cart__item-img">
@@ -28,7 +38,7 @@ const CartItem = ({  name, price, type, size, imageUrl, count }) => {
                 </div>
             </div>
             <div className="cart__item-price">
-                <b>{price*count} ₽</b>
+                <b>{price * count} ₽</b>
             </div>
             <div className="cart__item-remove">
                 <div className="button button--outline button--circle">
