@@ -12,7 +12,7 @@ import { setCategoryId, setCurrentPage, setFilters } from '../redux/slises/filte
 import { list } from '../components/Sort';
 import { fetchPizzas } from '../redux/slises/pizzaSlice';
 import NotFoundBlock from './NotFound';
-import { Link } from "react-router-dom";
+
 
 
 const Home = () => {
@@ -97,7 +97,7 @@ const Home = () => {
                 (status === "error") ? <NotFoundBlock /> : (<div className="content__items">
                     {
                         (isLoading) ? [...new Array(4)].map((_, index) => { return <Skeleton key={index} /> }) : items.map(pizza => {
-                            return <Link key={pizza.id} to={"/pizza/" + pizza.id}><PizzaBlock {...pizza} /></Link>
+                            return < PizzaBlock key={pizza.id} {...pizza} />
                         }
                         )}
                 </div>)
