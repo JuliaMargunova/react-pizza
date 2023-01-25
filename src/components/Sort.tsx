@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSort, selectSortType } from '../redux/slises/filterSlice';
+import { setSort, selectSortType, SortT } from '../redux/slises/filterSlice';
 
-type SortItem = {
-    name: string;
-    sort: string;
-}
+// type SortItem = {
+//     name: string;
+//     sort: string;
+// }
 
-export const list: SortItem[] = [
+export const list: SortT[] = [
     { name: 'популярности', sort: 'rating' },
     { name: 'цене', sort: 'price' },
     { name: 'алфавиту', sort: 'name' }
@@ -19,15 +19,18 @@ const Sort : React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const sortRef = React.useRef<HTMLDivElement>(null);
 
-    const setSortTypeClick = (type: SortItem) => {
+    const setSortTypeClick = (type: SortT) => {
         dispatch(setSort(type));
         setIsOpen(!isOpen);
     }
 
     React.useEffect(() => {
-        const handleClickOutside = (event: any) => {
-            var path = event.path || (event.composedPath && event.composedPath());
-            if (!path.includes(sortRef.current)) {
+        const handleClickOutside = (event: MouseEvent) => {
+            const _event = event as MouseEvent & {
+                path: Node[];
+            }
+            var path = _event.path || (event.composedPath && event.composedPath());
+            if ( sortRef.current && !path.includes(sortRef.current)) {
                 setIsOpen(false);
             }
         }

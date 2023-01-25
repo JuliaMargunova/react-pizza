@@ -5,6 +5,8 @@ import CartItem from './CartItem';
 import { useSelector } from "react-redux";
 import { selectCart } from '../redux/slises/cartSlice';
 
+
+
 const Cart: React.FC = () => {
     const { totalPrice, items, cartPizzasQuantity } = useSelector(selectCart);
 

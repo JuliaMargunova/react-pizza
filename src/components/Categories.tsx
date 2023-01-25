@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 type CategoriesProps = {
-    activeIndex:number;
-setActiveIndexClick: any;
+    activeIndex: number;
+    setActiveIndexClick: (i: number) => void;
 }
 
 const Categories: React.FC<CategoriesProps> = ({ activeIndex, setActiveIndexClick }) => {
