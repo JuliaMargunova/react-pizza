@@ -1,3 +1,4 @@
+import useWhyDidYouUpdate from "ahooks/lib/useWhyDidYouUpdate";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSort, selectSortType, SortT } from '../redux/slises/filterSlice';
@@ -13,8 +14,12 @@ export const list: SortT[] = [
     { name: 'алфавиту', sort: 'name' }
 ];
 
-const Sort : React.FC = () => {
-    const sortType = useSelector(selectSortType);
+type SortProps = {
+    sortType: SortT
+}
+
+const Sort : React.FC<SortProps> =React.memo( ({sortType}) => {
+    useWhyDidYouUpdate('Sort', {sortType});
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
     const sortRef = React.useRef<HTMLDivElement>(null);
@@ -65,5 +70,5 @@ const Sort : React.FC = () => {
             }
         </div>
     )
-}
+});
 export default Sort;

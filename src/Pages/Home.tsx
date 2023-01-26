@@ -13,6 +13,7 @@ import { fetchPizzas } from '../redux/slises/pizzaSlice';
 import NotFoundBlock from './NotFound';
 import { selectPizza } from '../redux/slises/pizzaSlice';
 import { selectFilter } from '../redux/slises/filterSlice';
+import { useAppDispatch } from "../redux/store";
 
 type Pizza = {
     id: string;
@@ -31,7 +32,7 @@ const Home = () => {
     const navigate = useNavigate();
     const { categoryId, sortType, currentPage, searchValue } = useSelector(selectFilter);
     const { items, status } = useSelector(selectPizza);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = React.useState(true);
 
     const isSearch = React.useRef(false);
@@ -65,7 +66,6 @@ const Home = () => {
         const sort = sortType.sort;
         try {
             dispatch(
-                //@ts-ignore
                 fetchPizzas({
                     category,
                     search,
@@ -86,11 +86,11 @@ const Home = () => {
             const params = qs.parse(window.location.search.substring(1));
 
             const sort = list.find((item: SortT) => params.sort === item.sort) as SortT;
-            const { categoryId, currentPage } = params;
+           
             dispatch(setFilters(
                 {
                     searchValue: '',
-                    categoryId: Number(params.category),
+                    categoryId: Number(params.categoryId),
                     currentPage: Number(params.currentPage),
                     sortType: sort || sort[0],
                 }
@@ -112,7 +112,7 @@ const Home = () => {
         <div className="container">
             <div className="content__top">
                 <Categories activeIndex={categoryId} setActiveIndexClick={onChangeCategory} />
-                <Sort />
+                <Sort sortType={sortType} />
             </div>
             <h2 className="content__title">Все пиццы</h2>
             {
