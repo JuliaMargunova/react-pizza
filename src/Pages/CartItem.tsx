@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { minusItem, plusItem, removeItem } from "../redux/slises/cartSlice";
+import { minusItem, plusItem, removeItem } from "../redux/cart/slice";
 import clsx from 'clsx';
 
 type CatsProps = {
@@ -13,11 +13,6 @@ type CatsProps = {
     count: number;
 
 }
-
-// const onClickMinus = () => {
-//     //dispatch(minusItem(id));
-// };
-
 
 const CartItem: React.FC<CatsProps> = ({ id, name, price, type, size, imageUrl, count }) => {
     const dispatch = useDispatch();

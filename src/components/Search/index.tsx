@@ -4,10 +4,11 @@ import s from '../Search/Search.module.scss';
 import clear from '../../assets/img/icons/clear.svg';
 import search from '../../assets/img/icons/search.svg';
 import debounce from "lodash.debounce";
-import { setSearchValue } from '../../redux/slises/filterSlice';
+//import { setSearchValue } from '../../redux/slises/filterSlice';
 
 
 import { useDispatch } from 'react-redux';
+import { setSearchValue } from "../../redux/filter/slice";
 
 const Search: React.FC = () => {
     const [value, setValue] = React.useState('');

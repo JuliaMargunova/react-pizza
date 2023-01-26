@@ -7,13 +7,15 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from "../Pagination";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { FilterSliceState, setCategoryId, setCurrentPage, setFilters, SortT } from '../redux/slises/filterSlice';
+
 import { list } from '../components/Sort';
-import { fetchPizzas } from '../redux/slises/pizzaSlice';
 import NotFoundBlock from './NotFound';
-import { selectPizza } from '../redux/slises/pizzaSlice';
-import { selectFilter } from '../redux/slises/filterSlice';
 import { useAppDispatch } from "../redux/store";
+import { selectFilter } from "../redux/filter/selectors";
+import { setCategoryId, setCurrentPage, setFilters } from "../redux/filter/slice";
+import { SortT } from "../redux/filter/types";
+import { selectPizza } from "../redux/pizza/selectors";
+import { fetchPizzas } from "../redux/pizza/asyncAction";
 
 type Pizza = {
     id: string;
