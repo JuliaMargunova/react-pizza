@@ -7,13 +7,13 @@ import FullPizza from './Pages/FullPizza';
 
 
 import { Route, Routes } from "react-router-dom";
-import MainLayoot from './Pages/layouts/MainLayout';
-const Cart = React.lazy(()=>import('./Pages/Cart'));
-
+import MainLayout from './layouts/MainLayout';
+const Cart = React.lazy(()=>import(/* webpackChunkName: "Cart" */ './Pages/Cart'));
+                                   
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<MainLayoot />}>
+      <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/not-found" element={<NotFound />} />
         <Route path="/cart" element={

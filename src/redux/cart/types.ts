@@ -10,6 +10,6 @@ export type CartItem = {
 
 export interface CartSliceState {
     totalPrice: number;
-    cartPizzasQuantity: number;
     items: CartItem[];
+    cartPizzasQuantity: number;
 }

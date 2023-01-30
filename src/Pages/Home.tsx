@@ -1,14 +1,16 @@
 import React, { useContext, useState } from "react";
 import qs from 'qs';
+
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
-import Pagination from "../Pagination";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
-
 import { list } from '../components/Sort';
+
+import Pagination from "../components/Pagination";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+
 import NotFoundBlock from './NotFound';
 import { useAppDispatch } from "../redux/store";
 import { selectFilter } from "../redux/filter/selectors";

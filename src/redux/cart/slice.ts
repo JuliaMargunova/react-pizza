@@ -1,3 +1,4 @@
+import { getPizzasQuantity } from './../../utils/getPizzasQuantity';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { calcTotalPrice } from "../../utils/calcTotalPrice";
 import { getCartFromLS } from "../../utils/getCartFromLS";
@@ -10,6 +11,7 @@ const initialState: CartSliceState = {
     items,
     cartPizzasQuantity: 0
 };
+ 
 
 const cartSlice = createSlice({
     name: 'cart',
@@ -17,7 +19,6 @@ const cartSlice = createSlice({
     reducers: {
         addItem(state, action: PayloadAction<CartItem>) {
             const findItem = state.items.find(obj => obj.id === action.payload.id);
-            
             if (findItem) { findItem.count++; }
             else {
                 state.items.push({
@@ -26,24 +27,29 @@ const cartSlice = createSlice({
                 });
             }
             state.totalPrice = calcTotalPrice(state.items) as number;
-            state.cartPizzasQuantity = state.items.reduce((sum, pizza) => {
-                return pizza.count + sum;
-            }, 0);
+            state.cartPizzasQuantity = getPizzasQuantity(state.items) as number;
         },
         removeItem(state, action: PayloadAction<string>) {
-            debugger
-            state.items.filter(item => item.id !== action.payload);
+            state.items = state.items.filter(item => item.id !== action.payload);
+            state.totalPrice = calcTotalPrice(state.items) as number;
+            state.cartPizzasQuantity = getPizzasQuantity(state.items) as number;
         },
         clearItems(state) {
             state.items = [];
+            state.totalPrice = 0;
+            state.cartPizzasQuantity = 0;
         },
         minusItem(state, action: PayloadAction<string>) {
             const findItem = state.items.find(obj => obj.id === action.payload);
             if (findItem) { findItem.count--; }
+            state.totalPrice = calcTotalPrice(state.items) as number;
+            state.cartPizzasQuantity = getPizzasQuantity(state.items) as number;
         },
         plusItem(state, action: PayloadAction<string>) {
             const findItem = state.items.find(obj => obj.id === action.payload);
             if (findItem) { findItem.count++; }
+            state.totalPrice = calcTotalPrice(state.items) as number;
+            state.cartPizzasQuantity = getPizzasQuantity(state.items) as number;
         }
     }
 });
